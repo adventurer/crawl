@@ -71,7 +71,7 @@ ITEM_PIPELINES = {
    # 'crawl.pipelines.MysqlTwistedPipeline': 2,
 }
 
-IMAGES_STORE = '/Users/wuyang/python/crawl/images'
+IMAGES_STORE = 'images'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
