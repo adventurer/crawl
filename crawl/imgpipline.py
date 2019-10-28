@@ -23,13 +23,13 @@ class MyImagesPipeline(ImagesPipeline):
         values = []
         sql = ''
         if isinstance(item,BeikeItemAlbum):
-            sql = """ insert into houses_album(type,type_en,href,locate,checksum,path,isdown) values (%s,%s,%s,%s,%s,%s,%s) """
+            sql = """ insert into house_album(type,type_en,href,locate,checksum,path,isdown) values (%s,%s,%s,%s,%s,%s,%s) """
             for image_url in item['image_urls']:
                 for result in results:
                     if image_url == result[1]['url']:
                         values.append((item['type'],item['type_en'],item['href'][0],image_url,result[1]['checksum'],result[1]['path'],result[0]))
         elif isinstance(item,BeikeItemAlbumHouseType):
-            sql = """ insert into houses_type(type,type_en,href,locate,ht,area,price,checksum,path,isdown) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) """
+            sql = """ insert into house_type(type,type_en,href,locate,ht,area,price,checksum,path,isdown) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) """
             for image_url in item['image_urls']:
                 for result in results:
                     if image_url == result[1]['url']:

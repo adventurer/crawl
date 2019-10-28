@@ -20,7 +20,9 @@ def noneToEmpty(value):
 def getNum(value):
     if value!='':
         num = re.findall(r"(\d+)",value)
-        return num
+        print("find number:",value)
+        print("replace number:","".join(num))
+        return "".join(num)
     else:
         return value
 
@@ -71,7 +73,7 @@ class BeikeItem(scrapy.Item):
     title = scrapy.Field()  # 房源名称
     address = scrapy.Field()  # 房源名称
     area = scrapy.Field(input_processor=MapCompose(getNum))  # 房源名称
-    priceavg = scrapy.Field(input_processor=MapCompose(intOrEmpty))  # 房源名称
+    priceavg = scrapy.Field(input_processor=MapCompose(getNum))  # 房源名称
     priceall = scrapy.Field(input_processor=MapCompose(getNum))  # 房源名称
     href = scrapy.Field()  # 房源名称
     img = scrapy.Field(input_processor=MapCompose(extractPNG))  # 房源名称
@@ -113,7 +115,7 @@ class BeikeItemBasic(scrapy.Item):
     address = scrapy.Field()
     sale_address = scrapy.Field()
     merchant = scrapy.Field()
-    price = scrapy.Field(input_processor=MapCompose(getNum))
+    price = scrapy.Field()
     location = scrapy.Field()
 
 class BeikeItemProgramme(scrapy.Item):
@@ -122,7 +124,7 @@ class BeikeItemProgramme(scrapy.Item):
     area_floor = scrapy.Field(input_processor=MapCompose(getNum))
     area_building = scrapy.Field(input_processor=MapCompose(getNum))
     house_cnt = scrapy.Field()
-    years = scrapy.Field(input_processor=MapCompose(getNum))
+    years = scrapy.Field()
     r_green = scrapy.Field()
     r_volume = scrapy.Field()
 

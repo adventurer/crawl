@@ -25,18 +25,18 @@ class MySQLPipeline(object):
     def process_item(self, item, spider):
         values = []
         if isinstance(item,BeikeItem):
-            sql = """ select id from houses where href = %s """
+            sql = """ select id from house_house where href = %s """
             self.cursor.execute(sql,(item['href'],))
             result = self.cursor.fetchone()
             if result is None:
-                sql = """insert into houses(city,city_en, title, address, area, priceavg, priceall, href, img,tags,sale,type)
+                sql = """insert into house_house(city,city_en, title, address, area, priceavg, priceall, href, img,tags,sale,type)
                     VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""" 
                 values.append((item['city'],item['city_en'], item['title'], item['address'], item['area'], item['priceavg'], item['priceall'], item['href'], item['img'], item['tags'], item['sale'], item['type']))
             else:
-                sql = """ update houses set priceavg = %s,priceall = %s,sale = %s where id = %s """ 
+                sql = """ update house_house set priceavg = %s,priceall = %s,sale = %s where id = %s """ 
                 values.append((item['priceavg'],item['priceall'],item['sale'],result[0]))
         elif isinstance(item,BeikeItemLocation):
-            sql = """update houses set longitude = %s,latitude = %s where href = %s """ 
+            sql = """update house_house set longitude = %s,latitude = %s where href = %s """ 
             values.append((item['longitude'],item['latitude'],item['href']))
         elif isinstance(item,BeikeItemAlbum):
             pass

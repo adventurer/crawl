@@ -28,8 +28,8 @@ class beikeSpider(scrapy.Spider):
 
             if int(count) > 0:
                 maxPage = int(count) / 10
-                if maxPage > 100:
-                    for x in range(1, 100):
+                if maxPage > 10:
+                    for x in range(1, 10):
                         print("跟进rul-1：", response.url + '/pg' + str(x))
                         yield response.follow(response.url + '/pg' + str(x), self.parse_house)
                 else:
@@ -106,8 +106,13 @@ class beikeSpider(scrapy.Spider):
         print(location)
         item_loader = BeikeJobItemLoader(item=BeikeItemLocation(), response=response)
         item_loader.add_value('href', response.url)
-        item_loader.add_value('latitude', location[0][0])
-        item_loader.add_value('longitude', location[0][1])
+        if len(location):
+            item_loader.add_value('latitude', location[0][0])
+            item_loader.add_value('longitude', location[0][1])
+        else:
+            item_loader.add_value('latitude', "0")
+            item_loader.add_value('longitude', "0")
+        
         item = item_loader.load_item()
         yield item
 
@@ -249,22 +254,22 @@ class beikeSpider(scrapy.Spider):
         item2 = item_loader2.load_item()
         yield item2
 
-        events = []
-        event_list = soup.find_all('li',class_='fq-nbd')
-        for event_unit in event_list:
-            event = event_unit.find_all('span');
-            if len(event)==6 and len(re.findall(r"(\d+)-(\d+)-(\d+)",event[0].get_text())) > 0:
-                x = {'href':response.url.rstrip('xiangqing'),'time':event[0].get_text().strip(),'event':event[2].get_text().strip(),'target':event[4].get_text().strip()}
-                events.append(x)
+        # events = []
+        # event_list = soup.find_all('li',class_='fq-nbd')
+        # for event_unit in event_list:
+        #     event = event_unit.find_all('span');
+        #     if len(event)==6 and len(re.findall(r"(\d+)-(\d+)-(\d+)",event[0].get_text())) > 0:
+        #         x = {'href':response.url.rstrip('xiangqing'),'time':event[0].get_text().strip(),'event':event[2].get_text().strip(),'target':event[4].get_text().strip()}
+        #         events.append(x)
 
-        item_loader3 = BeikeJobItemLoader(item=BeikeItemEvent(), response=response)
-        for event_i in events:
-            item_loader3.add_value('href', event_i['href'])
-            item_loader3.add_value('time', event_i['time'])
-            item_loader3.add_value('event', event_i['event'])
-            item_loader3.add_value('target', event_i['target'])
-            item3 = item_loader3.load_item()
-        yield item3
+        # item_loader3 = BeikeJobItemLoader(item=BeikeItemEvent(), response=response)
+        # for event_i in events:
+        #     item_loader3.add_value('href', event_i['href'])
+        #     item_loader3.add_value('time', event_i['time'])
+        #     item_loader3.add_value('event', event_i['event'])
+        #     item_loader3.add_value('target', event_i['target'])
+        #     item3 = item_loader3.load_item()
+        # yield item3
 
         
                 
